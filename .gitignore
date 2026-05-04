@@ -1,3 +1,6 @@
+# Git
+.gitignore
+
 # Compiled Object files
 *.slo
 *.lo
@@ -38,12 +41,7 @@ x86/
 [Rr]elease/
 
 # IDE - VS Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/c_cpp_properties.json
-!.vscode/extensions.json
+.vscode/
 *.code-workspace
 
 # IDE - Visual Studio
