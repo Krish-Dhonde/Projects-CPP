@@ -72,12 +72,13 @@ private:
     cout << "4. Delete a Record\n";
     cout << "5. Display All Records\n";
     cout << "6. Exit\n";
-    cout << "Enter your choice: ";
+    cout << "\nEnter your choice: ";
   }
 
   void addRecord() {
     int recordId;
     string recordData;
+    string recordDescription, recordNote;
 
     cout << "\nEnter Record ID (integer): ";
     while (!(cin >> recordId)) {
@@ -92,11 +93,27 @@ private:
       return;
     }
 
-    cout << "Enter Record Details: ";
+    cout << "Enter Record Name: ";
     getline(cin >> ws, recordData);
 
+    cout << "Enter Record Description: ";
+    getline(cin >> ws, recordDescription);
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter Record Note (optional):";
+    getline(cin, recordNote);
+
+    if (recordNote.empty()) {
+      records[recordId] = recordData + ": " + recordDescription;
+    } else {
+      records[recordId] = recordData + ": " + recordDescription +
+                          "/--------/\n" + "Note of" + recordData + ": " +
+                          recordNote;
+    }
+
     // O(1) insertion
-    records[recordId] = recordData;
+    records[recordId] = recordData + ": " + recordDescription;
     cout << "Record added successfully.\n";
   }
 
