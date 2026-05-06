@@ -1,3 +1,4 @@
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -160,11 +161,22 @@ private:
     }
 
     // O(N) iteration, required for printing all elements
-    cout << "\n--- All Records ---\n";
-    for (const auto &pair : records) {
-      cout << "ID: " << pair.first << " | Details: " << pair.second << "\n";
+    // 1. Print the Header (Once)
+    std::cout << "\n" << std::string(70, '-') << "\n";
+    std::cout << std::left << std::setw(10) << "ID" << std::setw(20) << "Name"
+              << std::setw(25) << "Description"
+              << "Note" << "\n";
+    std::cout << std::string(70, '-') << "\n";
+
+    // 2. Print the Data Rows
+    for (const auto &item : records) {
+      // Accessing members (Assuming a custom struct/tuple)
+      std::cout << std::left << std::setw(10) << item.first << std::setw(20)
+                << item.second << std::setw(25) << item.third
+                << (item.fourth.empty() ? "N/A" : item.fourth) << "\n";
     }
-    cout << "-------------------\n";
+
+    std::cout << std::string(70, '-') << "\n";
   }
 
 public:
