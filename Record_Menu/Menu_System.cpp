@@ -23,7 +23,7 @@ public:
     cout << "Enter your Name: ";
     getline(
         cin >> ws,
-        name); // read full line including spaces, consuming leading whitespace
+        name); 
 
     cout << "Enter your Age: ";
     while (!(cin >> age) || age <= 0) {
@@ -59,11 +59,17 @@ public:
 // Class to manage the Main Application and Records workflow
 class Application {
 private:
+  struct RecordDetails {
+    string name;
+    string description;
+    string note;
+  };
+
   User currentUser;
 
   // Using unordered_map for O(1) average time complexity for lookups,
-  // insertions, and deletions Key: integer Record ID, Value: string Record Data
-  unordered_map<int, string> records;
+  // insertions, and deletions Key: integer Record ID, Value: RecordDetails
+  unordered_map<int, RecordDetails> records;
 
   void displayMenu() const {
     cout << "\n=== Main Menu ===\n";
@@ -100,21 +106,11 @@ private:
     cout << "Enter Record Description: ";
     getline(cin >> ws, recordDescription);
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Enter Record Note (optional):";
+    cout << "Enter Record Note (optional): ";
     getline(cin, recordNote);
 
-    if (recordNote.empty()) {
-      records[recordId] = recordData + ": " + recordDescription;
-    } else {
-      records[recordId] = recordData + ": " + recordDescription +
-                          "/--------/\n" + "Note of" + recordData + ": " +
-                          recordNote;
-    }
-
     // O(1) insertion
-    records[recordId] = recordData + ": " + recordDescription;
+    records[recordId] = {recordData, recordDescription, recordNote};
     cout << "Record added successfully.\n";
   }
 
@@ -131,7 +127,12 @@ private:
     auto it = records.find(recordId);
     if (it != records.end()) {
       cout << "Record Found -> ID: " << it->first
-           << " | Details: " << it->second << "\n";
+           << " | Name: " << it->second.name
+           << " | Description: " << it->second.description;
+      if (!it->second.note.empty()) {
+        cout << " | Note: " << it->second.note;
+      }
+      cout << "\n";
     } else {
       cout << "Record with ID " << recordId << " not found.\n";
     }
@@ -160,39 +161,35 @@ private:
       return;
     }
 
-    // O(N) iteration, required for printing all elements
-    // 1. Print the Header (Once)
-    std::cout << "\n" << std::string(70, '-') << "\n";
-    std::cout << std::left << std::setw(10) << "ID" << std::setw(20) << "Name"
-              << std::setw(25) << "Description"
+    // Header (Once)
+    cout << "\n" << string(70, '-') << "\n";
+    cout << left << setw(10) << "ID" << setw(20) << "Name"
+              << setw(25) << "Description"
               << "Note" << "\n";
-    std::cout << std::string(70, '-') << "\n";
+    cout << string(70, '-') << "\n";
 
-    // 2. Print the Data Rows
+    // Data Rows
     for (const auto &item : records) {
-      // Accessing members (Assuming a custom struct/tuple)
-      std::cout << std::left << std::setw(10) << item.first << std::setw(20)
-                << item.second << std::setw(25) << item.third
-                << (item.fourth.empty() ? "N/A" : item.fourth) << "\n";
+      cout << left << setw(10) << item.first << setw(20)
+                << item.second.name << setw(25) << item.second.description
+                << (item.second.note.empty() ? "N/A" : item.second.note)
+                << "\n";
     }
 
-    std::cout << std::string(70, '-') << "\n";
+    cout << string(70, '-') << "\n";
   }
 
 public:
   void run() {
-    // Registration enforcement
     // Check if the user is registered or not before sending them to main menu.
     if (!currentUser.isRegistered()) {
       currentUser.registerUser();
     }
 
-    // Main Menu logic
     int choice;
     do {
       displayMenu();
 
-      // Validation of integer input for menu choice
       if (!(cin >> choice)) {
         cout << "Invalid input. Please enter a number.\n";
         cin.clear();
@@ -227,7 +224,6 @@ public:
 };
 
 int main() {
-  // Instantiate and run the application
   Application app;
   app.run();
   return 0;
