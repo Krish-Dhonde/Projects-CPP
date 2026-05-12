@@ -17,7 +17,7 @@ private:
 public:
   User() : age(0), registered(false) {}
 
-  // Phase 1: Asking and saving personal details
+  // Asking and saving personal details
   void registerUser() {
     cout << "\n=== User Registration ===\n";
     cout << "Enter your Name: ";
