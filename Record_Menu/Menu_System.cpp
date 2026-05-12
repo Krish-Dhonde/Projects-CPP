@@ -21,9 +21,7 @@ public:
   void registerUser() {
     cout << "\n=== User Registration ===\n";
     cout << "Enter your Name: ";
-    getline(
-        cin >> ws,
-        name); 
+    getline(cin >> ws, name);
 
     cout << "Enter your Age: ";
     while (!(cin >> age) || age <= 0) {
@@ -162,21 +160,24 @@ private:
     }
 
     // Header (Once)
-    cout << "\n" << string(70, '-') << "\n";
-    cout << left << setw(10) << "ID" << setw(20) << "Name"
-              << setw(25) << "Description"
-              << "Note" << "\n";
-    cout << string(70, '-') << "\n";
+    cout << "\n+" << string(10, '-') << "+" << string(20, '-') << "+"
+         << string(25, '-') << "+" << string(20, '-') << "+\n";
+    cout << "| " << left << setw(9) << "ID" << "| " << setw(19) << "Name"
+         << "| " << setw(24) << "Description" << "| " << setw(19) << "Note"
+         << "|\n";
+    cout << "+" << string(10, '-') << "+" << string(20, '-') << "+"
+         << string(25, '-') << "+" << string(20, '-') << "+\n";
 
     // Data Rows
     for (const auto &item : records) {
-      cout << left << setw(10) << item.first << setw(20)
-                << item.second.name << setw(25) << item.second.description
-                << (item.second.note.empty() ? "N/A" : item.second.note)
-                << "\n";
+      cout << "| " << left << setw(9) << item.first << "| " << setw(19)
+           << item.second.name << "| " << setw(24) << item.second.description
+           << "| " << setw(19)
+           << (item.second.note.empty() ? "N/A" : item.second.note) << "|\n";
     }
 
-    cout << string(70, '-') << "\n";
+    cout << "+" << string(10, '-') << "+" << string(20, '-') << "+"
+         << string(25, '-') << "+" << string(20, '-') << "+\n";
   }
 
 public:
