@@ -64,6 +64,7 @@ int main(){
     }
     
     swapQueue(q1, q2);
+    getchar();
 
     return 0;
 }
