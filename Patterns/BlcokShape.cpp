@@ -12,7 +12,7 @@ using namespace std;
 void pattern1(int r, int c){
     for (int i = r; i > 0; i--){
         for (int j = 1; j <= c; j++){
-            cout<<"* ";
+            cout<<"*";
         }
         cout<<endl;
     }
